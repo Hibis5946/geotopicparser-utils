@@ -38,7 +38,7 @@ cd lucene-geo-gazetteer
 # Export path (command for Linux distribution)
 - export PATH=$PATH:/root/lucene-geo-gazetteer/src/main/bin
 
-#Open the ~/.bashrc file (which is currently /root/.bashrc):
+# Open the ~/.bashrc file (which is currently /root/.bashrc):
 bash
 - nano /root/.bashrc
 
