@@ -88,7 +88,7 @@ java -cp target/lucene-geo-gazetteer-0.3-SNAPSHOT-jar-with-dependencies.jar edu.
 lucene-geo-gazetteer -server
 # Query
 curl "localhost:8765/api/search?s=Pasadena&s=Texas&c=2"
-#Output sample
+# Output sample
 ![image](https://github.com/user-attachments/assets/382f8aa1-346c-4726-bfe1-76e967494d2d)
 
 
