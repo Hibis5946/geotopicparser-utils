@@ -20,41 +20,41 @@ Contributors
 * Yun Li, USC
 * Chris A. Mattmann, JPL
 
-This is the updated readme from [https://cwiki.apache.org/confluence/display/tika/GeoTopicParser] to install the following Packages:
-lucene-geo-gazetteer
-geotopicparser
-tika-server-standard
-Update date: 3/18/2025
-By: Sena London, APDS @ USC
+# Updated readme from [https://cwiki.apache.org/confluence/display/tika/GeoTopicParser] to install the following Packages:
+- lucene-geo-gazetteer
+- geotopicparser
+- tika-server-standard
+- Update date: 3/18/2025
+* By: Sena London, APDS @ USC
 =======
 
 #lucene-geo-gazetteer
-git clone https://github.com/chrismattmann/lucene-geo-gazetteer.git
+- git clone https://github.com/chrismattmann/lucene-geo-gazetteer.git
 
 # Change the directory into the newly downloaded package folder
 cd lucene-geo-gazetteer
-#Build the lucene-geo-gazetteer from that directory
-mvn clean package
-mvn install assembly:assembly
+# Build the lucene-geo-gazetteer from that directory
+- mvn clean package
+- mvn install assembly:assembly
 
-#Export path (command for Linux distribution)
-export PATH=$PATH:/root/lucene-geo-gazetteer/src/main/bin
+# Export path (command for Linux distribution)
+- export PATH=$PATH:/root/lucene-geo-gazetteer/src/main/bin
 
 #Open the ~/.bashrc file (which is currently /root/.bashrc):
 bash
-nano /root/.bashrc
+- nano /root/.bashrc
 
-#Append this line at the end (Depending on the OS, this is for Linux distribution):
+# Append this line at the end (Depending on the OS, this is for Linux distribution):
 bash
 export PATH=$PATH:/root/lucene-geo-gazetteer/src/main/bin
-##Save and exit the file (Ctrl + O, then Enter, and Ctrl + X to exit).
+# Save and exit the file (Ctrl + O, then Enter, and Ctrl + X to exit).
 
 #Reload the shell configuration:
 bash
-source /root/.bashrc
+- source /root/.bashrc
 
-#Build gazetteer
-#Change into the lucene directory
+# Build gazetteer
+# Change into the lucene directory
 cd lucene-geo-gazetteer
 #download the repository
 curl -O http://download.geonames.org/export/dump/allCountries.zip
@@ -63,22 +63,20 @@ unzip allCountries.zip
 lucene-geo-gazetteer -i geoIndex -b allCountries.txt
 
 
-##You can verify that the Gazetteer build worked by searching e.g., for Pasadena, and/or Texas:
+# You can verify that the Gazetteer build worked by searching e.g., for Pasadena, and/or Texas:
 lucene-geo-gazetteer -s Pasadena Texas -json
-![image](https://github.com/user-attachments/assets/3b1d8af7-ad07-402b-b4d3-6a92eebb0c9c)
-
-
-#start the lucene-geo-gazetteer-server
+# start the lucene-geo-gazetteer-server
 lucene-geo-gazetteer -server
-#Open another terminal to verify if REST API is responding by searching e.g., for Pasadena, and/or Texas
+# Open another terminal to verify if REST API is responding by searching e.g., for Pasadena, and/or Texas
 curl "http://localhost:8765/api/search?s=Pasadena&s=Texas"
-#output sample
-![image](https://github.com/user-attachments/assets/6a89784c-d567-4146-bd2c-23ddbc69fb33)
+# output sample
+- user:~/lucene-geo-gazetteer# lucene-geo-gazetteer -s Pasadena Texas -json
+- {"Texas":[{"name":"Texas","countryCode":"US","admin1Code":"TX","admin2Code":"","latitude":31.25044,"longitude":-99.25061}],"Pasadena":[{"name":"Pasadena","countryCode":"US","admin1Code":"CA","admin2Code":"037","latitude":34.14778,"longitude":-118.14452}]}
 
-#Search the lucene-geo-gazetteer version
-## Navigate into the lucene-geo-gazetteer directory
+# Search the lucene-geo-gazetteer version
+# Navigate into the lucene-geo-gazetteer directory
 cd lucene-geo-gazetteer
-##Search the version in the pom file
+#Search the version in the pom file
 grep -m 1 "<version>" pom.xml
 
 # Then search the index (e.g., for Pasadena and Texas): java -cp target/lucene-geo-gazetteer-<version>-jar-with-dependencies.jar edu.usc.ir.geo.gazetteer.GeoNameResolver -i geoIndex -s Pasadena Texas
