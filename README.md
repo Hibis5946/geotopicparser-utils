@@ -21,14 +21,12 @@ Contributors
 * Chris A. Mattmann, JPL
 
 # Updated readme from [https://cwiki.apache.org/confluence/display/tika/GeoTopicParser] to install the following Packages:
-- lucene-geo-gazetteer
-- geotopicparser
-- tika-server-standard
+lucene-geo-gazetteer, geotopicparser, tika-server-standard
 - Update date: 3/18/2025
-* By: Sena London, APDS @ USC
+- By: Sena London, APDS @ USC
 =======
 
-#lucene-geo-gazetteer
+# lucene-geo-gazetteer
 - git clone https://github.com/chrismattmann/lucene-geo-gazetteer.git
 
 # Change the directory into the newly downloaded package folder
