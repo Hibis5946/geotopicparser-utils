@@ -24,7 +24,7 @@ Contributors
 lucene-geo-gazetteer, geotopicparser, tika-server-standard
 - Update date: 3/18/2025
 - By: Sena London, APDS @ USC
-=======
+
 
 # lucene-geo-gazetteer
 - git clone https://github.com/chrismattmann/lucene-geo-gazetteer.git
@@ -56,10 +56,9 @@ bash
 cd lucene-geo-gazetteer
 #download the repository
 curl -O http://download.geonames.org/export/dump/allCountries.zip
-#unzip
-unzip allCountries.zip
-lucene-geo-gazetteer -i geoIndex -b allCountries.txt
-
+# unzip
+- unzip allCountries.zip
+- lucene-geo-gazetteer -i geoIndex -b allCountries.txt
 
 # You can verify that the Gazetteer build worked by searching e.g., for Pasadena, and/or Texas:
 lucene-geo-gazetteer -s Pasadena Texas -json
@@ -74,7 +73,7 @@ curl "http://localhost:8765/api/search?s=Pasadena&s=Texas"
 # Search the lucene-geo-gazetteer version
 # Navigate into the lucene-geo-gazetteer directory
 cd lucene-geo-gazetteer
-#Search the version in the pom file
+# Search the version in the pom file
 grep -m 1 "<version>" pom.xml
 
 # Then search the index (e.g., for Pasadena and Texas): java -cp target/lucene-geo-gazetteer-<version>-jar-with-dependencies.jar edu.usc.ir.geo.gazetteer.GeoNameResolver -i geoIndex -s Pasadena Texas
@@ -100,19 +99,19 @@ org/apache/tika/parser/geo/
 
 The following instructions show how to download the model and place it on the right path:
 
-mkdir /root/location-ner-model && cd /root/location-ner-model
-curl -O https://opennlp.sourceforge.net/models-1.5/en-ner-location.bin
-mkdir -p org/apache/tika/parser/geo/
-mv en-ner-location.bin org/apache/tika/parser/geo/
+- mkdir /root/location-ner-model && cd /root/location-ner-model
+- curl -O https://opennlp.sourceforge.net/models-1.5/en-ner-location.bin
+- mkdir -p org/apache/tika/parser/geo/
+- mv en-ner-location.bin org/apache/tika/parser/geo/
 
 # Test out the GeoTopicParser
 Now you can run Tika and try out the GeoTopicParser. At the moment since it's a Parser and not a Content-Handler (hopefully will develop it later), the parser is mapped to the MIME type application/geotopic which is a sub-class of text/plain. So, there are two steps to try the parser out now.
 
 # Create a .geot file, you can use this sample file from the NSF Polar data contributed to TREC. 2. Tell Tika about the application/geotopic MIME type. You can download this file and place it on the classpath in the org/apache/tika/mime directory, e.g., by doing:
-mkdir /root/geotopic-mime && cd /root/geotopic-mime
-mkdir -p org/apache/tika/mime
-curl -O https://raw.githubusercontent.com/chrismattmann/geotopicparser-utils/master/mime/org/apache/tika/mime/custom-mimetypes.xml
-mv custom-mimetypes.xml org/apache/tika/mime
+- mkdir /root/geotopic-mime && cd /root/geotopic-mime
+- mkdir -p org/apache/tika/mime
+- curl -O https://raw.githubusercontent.com/chrismattmann/geotopicparser-utils/master/mime/org/apache/tika/mime/custom-mimetypes.xml
+- mv custom-mimetypes.xml org/apache/tika/mime
 # download the polar.geot from chrismattmann repository
 curl -o /root/geotopic-mime/polar.geot https://raw.githubusercontent.com/chrismattmann/geotopicparser-utils/master/sample-files/polar.geot
 
@@ -120,13 +119,13 @@ curl -o /root/geotopic-mime/polar.geot https://raw.githubusercontent.com/chrisma
 java -cp /root/tika/tika-app/target/tika-app-4.0.0-SNAPSHOT.jar:/root/tika/tika-parsers/tika-parsers-ml/tika-parser-nlp-package/target/tika-parser-nlp-package-4.0.0-SNAPSHOT.jar org.apache.tika.cli.TikaCLI -m polar.geot
 
 # run python to search geoparser through tika
-#build the tika 4.0.0 server
+# build the tika 4.0.0 server
 cd /root/tika/tiker-server
 mvn clean install
 # start the tika server and keep it running
-java -jar /root/tika/tika-server/tika-server-standard/target/tika-server-standard-4.0.0-SNAPSHOT.jar
+- java -jar /root/tika/tika-server/tika-server-standard/target/tika-server-standard-4.0.0-SNAPSHOT.jar
 or 
-nohup java -jar tika-server-standard/target/tika-server-standard-4.0.0-SNAPSHOT.jar > tika-server.log 2>&1 &
+- nohup java -jar tika-server-standard/target/tika-server-standard-4.0.0-SNAPSHOT.jar > tika-server.log 2>&1 &
 
 # run the python file that include the tika module to search for geo name at large scale
 pyhon your_script_py
@@ -144,29 +143,28 @@ java -version
 # add jdk to the path
 nano ~/.bashrc
 # add the following lines
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-export PATH=$JAVA_HOME/bin:$PATH
+- export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+- export PATH=$JAVA_HOME/bin:$PATH
 # save and close the file and apply the change
 source ~/.bashrc
 
 ## command to install tika from the maven repository
 mvn dependency:get -Dartifact=org.apache.tika:tika-app:2.6.0
-#locate the jar file
+# locate the jar file
 ~/.m2/repository/org/apache/tika/tika-app/2.6.0/tika-app-2.6.0.jar
-#update permission if there is any
+# update permission if there is any
 chmod +x ~/.m2/repository/org/apache/tika/tika-app/2.6.0/tika-app-2.6.0.jar
-#run the tika app
+# run the tika app
 java -jar ~/.m2/repository/org/apache/tika/tika-app/2.6.0/tika-app-2.6.0.jar
-##
 
 # step for tika-GeoParser
 # change directory into tika (Linux based OS)
 cd ~/tika
-#Build the tika project by generating the target/ directory and tika-app-version-SNAPSHOT.jar
+# Build the tika project by generating the target/ directory and tika-app-version-SNAPSHOT.jar
 mvn clean install
 # Verify the bluid
 ls -lh tika-app/target/
-#Run this to check the version of the tika-app-SNAPSHOT
+# Run this to check the version of the tika-app-SNAPSHOT
 java -jar tika-app/target/tika-app-4.0.0-SNAPSHOT.jar --version
 
 # Run the geo command
