@@ -25,6 +25,8 @@ lucene-geo-gazetteer, geotopicparser, tika-server-standard
 - Update date: 3/18/2025
 - By: Sena London, APDS @ USC
 
+# Compatible Java
+JDK 17
 
 # lucene-geo-gazetteer
 - git clone https://github.com/chrismattmann/lucene-geo-gazetteer.git
