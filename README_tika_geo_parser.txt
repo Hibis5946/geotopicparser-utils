@@ -122,47 +122,45 @@ The model needs to be placed on the classpath for your Tika installation in the 
 
 org/apache/tika/parser/geo/
 
-The following instructions show how to download the model and place it on the right path:
+#Here the class is the /root
+#Make the directory for the ner model
+mkdir -p /root/location-ner-model && cd /root/location-ner-model
 
-$ mkdir /root/location-ner-model && cd /root/location-ner-model
-$ curl -L -o /root/location-ner-model/en-ner-location.bin https://opennlp.sourceforge.net/models-1.5/en-ner-location.bin
-$ mkdir -p org/apache/tika/parser/geo/
-$ mv en-ner-location.bin org/apache/tika/parser/geo/
+#download the pretrained model
+curl -O https://opennlp.sourceforge.net/models-1.5/en-ner-location.bin
 
-#####
+#place the model in the required classpath directory
+mkdir -p org/apache/tika/parser/geo/
+mv en-ner-location.bin org/apache/tika/parser/geo/
 
-#Test out the GeoTopicParser
-Now you can run Tika and try out the GeoTopicParser. At the moment since it's a Parser and not a Content-Handler (hopefully will develop it later), the parser is mapped to the MIME type application/geotopic which is a sub-class of text/plain. So, there are two steps to try the parser out now.
 
-Create a .geot file, you can use this sample file from the NSF Polar data contributed to TREC. 2. Tell Tika about the application/geotopic MIME type. You can download this file and place it on the classpath in the org/apache/tika/mime directory, e.g., by doing:
+#Download and set up MIME Type configuration
+mkdir -p /root/geotopic-mime && cd /root/geotopic-mime
+mkdir -p org/apache/tika/mime
+curl -L -o custom-mimetypes.xml https://raw.githubusercontent.com/chrismattmann/geotopicparser-utils/master/mime/org/apache/tika/mime/custom-mimetypes.xml
+mv custom-mimetypes.xml org/apache/tika/mime
 
-$ mkdir /root/geotopic-mime && cd /root/geotopic-mime
-$ mkdir -p org/apache/tika/mime
-$ curl -L -o /root/geotopic-mime/custom-mimetypes.xml https://raw.githubusercontent.com/chrismattmann/geotopicparser-utils/master/mime/org/apache/tika/mime/custom-mimetypes.xml
-$ mv custom-mimetypes.xml org/apache/tika/mime
-$ download the polar.geot from chrismattmann repository
-
+#Download .geot file for testing
 curl -L -o /root/geotopic-mime/polar.geot https://raw.githubusercontent.com/chrismattmann/geotopicparser-utils/master/geotopics/polar.geot
-
 curl -L -o /root/geotopic-mime/cnn.geot https://raw.githubusercontent.com/chrismattmann/geotopicparser-utils/master/geotopics/cnn.geot
 
+#Start the lucene-geo-gazetteer server if it is off
+cd lucene-geo-gazetteer
+lucene-geo-gazetteer -server
+
+#Open another terminal 
+java -classpath /root/tika/tika-app-2.6.0.jar:/root/tika/tika-parser-nlp-package-2.6.0.jar:/root/location-ner-model:/root/geotopic-mime org.apache.tika.cli.TikaCLI -m /root/geotopic-mime/cnn.geot
 
 
+#Now download the required tika package(app, jar,nlp --version 2.6.0)
 
-With those files in place, let's use the GeoTopicParser using Tika-App:
+ mkdir -p /root/tika && cd /root/tika
+ curl -L -o tika-app-2.6.0.jar https://archive.apache.org/dist/tika/2.6.0/tika-app-2.6.0.jar
+ curl -L -o tika-parser-nlp-package-2.6.0.jar https://repo1.maven.org/maven2/org/apache/tika/tika-parser-nlp-package/2.6.0/tika-parser-nlp-package-2.6.0.jar
+ java -jar /root/tika/tika-app-2.6.0.jar --version
+ curl -L -o tika-server-2.6.0.jar https://archive.apache.org/dist/tika/2.6.0/tika-server-standard-2.6.0.jar
+ java -classpath /root/tika/tika-app-2.6.0.jar:/root/tika/tika-parser-nlp-package-2.6.0.jar:/root/location-ner-model:/root/geotopic-mime org.apache.tika.cli.TikaCLI -m /root/geotopic-mime/polar.geot
 
-#Fix the class path:
-java -cp /root/tika/tika-app/target/tika-app-4.0.0-SNAPSHOT.jar:/root/tika/tika-parsers/tika-parsers-ml/tika-parser-nlp-package/target/tika-parser-nlp-package-4.0.0-SNAPSHOT.jar org.apache.tika.cli.TikaCLI -m polar.geot
-
-##
-#run python to search geoparser through tika
-build the tika 4.0.0 server
-#cd /root/tika/tiker-server
-mvn clean install
-#start the tika server and keep it running
-java -jar /root/tika/tika-server/tika-server-standard/target/tika-server-standard-4.0.0-SNAPSHOT.jar
-or 
-nohup java -jar tika-server-standard/target/tika-server-standard-4.0.0-SNAPSHOT.jar > tika-server.log 2>&1 &
 
 
 #run the python file that include the tika module
@@ -209,10 +207,7 @@ mvn clean install
 # Verify the bluid
 ls -lh tika-app/target/
 #Run this to check the version of the tika-app-SNAPSHOT
-java -jar tika-app/target/tika-app-4.0.0-SNAPSHOT.jar --version
-
-# Run the geo command
-java -classpath tika-app/target/tika-app-4.0.0-SNAPSHOT.jar:tika-parsers/tika-parsers-ml/tika-parser-nlp-package/target/tika-parser-nlp-package-4.0.0-SNAPSHOT.jar:/root/location-ner-model:/root/geotopic-mime org.apache.tika.cli.TikaCLI -m polar.geot
+java -jar tika-app/target/tika-app-<version>-SNAPSHOT.jar --version
 
 ####
 
