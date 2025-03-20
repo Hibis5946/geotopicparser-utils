@@ -3,6 +3,9 @@ lucene-geo-gazetteer
 geotopicparser
 tika-server-standard
 
+#By Sena Londoon
+MS/APDS @ USC
+
 ##lucene-geo-gazetteer
 git clone https://github.com/chrismattmann/lucene-geo-gazetteer.git
 
@@ -122,7 +125,7 @@ The model needs to be placed on the classpath for your Tika installation in the 
 
 org/apache/tika/parser/geo/
 
-#Here the class is the /root
+#/root (But it depends on home directory choice)
 #Make the directory for the ner model
 mkdir -p /root/location-ner-model && cd /root/location-ner-model
 
