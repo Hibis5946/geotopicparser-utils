@@ -162,9 +162,11 @@ java -classpath /root/tika/tika-app-2.6.0.jar:/root/tika/tika-parser-nlp-package
  curl -L -o tika-parser-nlp-package-2.6.0.jar https://repo1.maven.org/maven2/org/apache/tika/tika-parser-nlp-package/2.6.0/tika-parser-nlp-package-2.6.0.jar
  java -jar /root/tika/tika-app-2.6.0.jar --version
  curl -L -o tika-server-2.6.0.jar https://archive.apache.org/dist/tika/2.6.0/tika-server-standard-2.6.0.jar
+
+#Run the geoparser to process the sample file
  java -classpath /root/tika/tika-app-2.6.0.jar:/root/tika/tika-parser-nlp-package-2.6.0.jar:/root/location-ner-model:/root/geotopic-mime org.apache.tika.cli.TikaCLI -m /root/geotopic-mime/polar.geot
 
-
+Additional info
 
 #run the python file that include the tika module
 pyhon your_script_py
