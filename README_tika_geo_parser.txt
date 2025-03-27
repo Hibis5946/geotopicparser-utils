@@ -6,6 +6,9 @@ tika-server-standard
 #By Sena Londoon
 MS/APDS @ USC
 
+# Recommanded JDK at the time of this edit: JDK 17
+# You have to make sure that your system is configured to use JDK 17 and the path correctly exported before this installation
+
 ##lucene-geo-gazetteer
 git clone https://github.com/chrismattmann/lucene-geo-gazetteer.git
 
@@ -188,7 +191,7 @@ java -version
 #add jdk to the path
 nano ~/.bashrc
 #add the following lines
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 export PATH=$JAVA_HOME/bin:$PATH
 #save and close the file and apply the change
 source ~/.bashrc
