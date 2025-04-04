@@ -48,28 +48,7 @@ lucene-geo-gazetteer -i geoIndex -b allCountries.txt
 lucene-geo-gazetteer -s Pasadena Texas -json
 
 # Ouput sample
-{
-    "Pasadena": [
-        {
-            "admin1Code": "CA",
-            "admin2Code": "037",
-            "countryCode": "US",
-            "latitude": 34.14778,
-            "longitude": -118.14452,
-            "name": "Pasadena"
-        }
-    ],
-    "Texas": [
-        {
-            "admin1Code": "TX",
-            "admin2Code": "",
-            "countryCode": "US",
-            "latitude": 31.25044,
-            "longitude": -99.25061,
-            "name": "Texas"
-        }
-    ]
-}
+{"Texas":[{"name":"Texas","countryCode":"US","admin1Code":"TX","admin2Code":"","latitude":31.25044,"longitude":-99.25061}],"Pasadena":[{"name":"Pasadena","countryCode":"US","admin1Code":"CA","admin2Code":"037","latitude":34.14778,"longitude":-118.14452}]}
 
 #start the lucene-geo-gazetteer-server
 lucene-geo-gazetteer -server
@@ -78,28 +57,7 @@ lucene-geo-gazetteer -server
 curl "http://localhost:8765/api/search?s=Pasadena&s=Texas"
 
 #output sample
-{
-    "Pasadena": [
-        {
-            "admin1Code": "CA",
-            "admin2Code": "037",
-            "countryCode": "US",
-            "latitude": 34.14778,
-            "longitude": -118.14452,
-            "name": "Pasadena"
-        }
-    ],
-    "Texas": [
-        {
-            "admin1Code": "TX",
-            "admin2Code": "",
-            "countryCode": "US",
-            "latitude": 31.25044,
-            "longitude": -99.25061,
-            "name": "Texas"
-        }
-    ]
-}
+{"Texas":[{"name":"Texas","countryCode":"US","admin1Code":"TX","admin2Code":"","latitude":31.25044,"longitude":-99.25061}],"Pasadena":[{"name":"Pasadena","countryCode":"US","admin1Code":"CA","admin2Code":"037","latitude":34.14778,"longitude":-118.14452}]}
 
 ###
 #Search the lucene-geo-gazetteer version
@@ -117,11 +75,13 @@ grep -m 1 "<version>" pom.xml
 # Replace the version in the command
 java -cp target/lucene-geo-gazetteer-0.3-SNAPSHOT-jar-with-dependencies.jar edu.usc.ir.geo.gazetteer.GeoNameResolver -i geoIndex -s Pasadena Texas
 
-The service mode:
-        #Launch Server
-        $ lucene-geo-gazetteer -server
-        # Query
-        $ curl "localhost:8765/api/search?s=Pasadena&s=Texas&c=2"
+#Launch Server
+ lucene-geo-gazetteer -server
+# Search for Pasadenas, Texas
+curl "localhost:8765/api/search?s=Pasadena&s=Texas&c=2"
+#output sample
+{"Texas":[{"name":"Texas","countryCode":"US","admin1Code":"TX","admin2Code":"","latitude":31.25044,"longitude":-99.25061}],"Pasadena":[{"name":"Pasadena","countryCode":"US","admin1Code":"CA","admin2Code":"037","latitude":34.14778,"longitude":-118.14452}]}
+
 
 ######
 
@@ -173,14 +133,32 @@ lucene-geo-gazetteer -server
 java -classpath /root/tika/tika-app-2.6.0.jar:/root/tika/tika-parser-nlp-package-2.6.0.jar:/root/location-ner-model:/root/geotopic-mime org.apache.tika.cli.TikaCLI -m /root/geotopic-mime/polar.geot
 java -classpath /root/tika/tika-app-2.6.0.jar:/root/tika/tika-parser-nlp-package-2.6.0.jar:/root/location-ner-model:/root/geotopic-mime org.apache.tika.cli.TikaCLI -m /root/geotopic-mime/cnn.geot
 
-Additional info
+#Output sample
+Content-Length: 3164
+Content-Type: application/geotopic
+Geographic_LATITUDE: 26.0112
+Geographic_LONGITUDE: -80.14949
+Geographic_NAME: Hollywood
+Optional_LATITUDE1: 40.92877
+Optional_LATITUDE2: 44.60715
+Optional_LONGITUDE1: -74.96032
+Optional_LONGITUDE2: -69.04576
+Optional_NAME1: New Jersey State Police Troop B Hope Station
+Optional_NAME2: Town of Monroe
+X-TIKA:Parsed-By: org.apache.tika.parser.DefaultParser
+X-TIKA:Parsed-By: org.apache.tika.parser.geo.GeoParser
+X-TIKA:Parsed-By-Full-Set: org.apache.tika.parser.DefaultParser
+X-TIKA:Parsed-By-Full-Set: org.apache.tika.parser.geo.GeoParser
+resourceName: cnn.geot
 
-#run the python file that include the tika module to process large dataset
+
+Additional info 
+#run the python file that include the tika module to process the dataset
 pyhon your_script.py
 
 ######
 
-# Command to see and manage all java version
+# Command to see and manage all java version (Well known public command)
 update-alternatives --list java
 # Show the path of all installed version
 /path/to/java -version
@@ -199,27 +177,6 @@ export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 export PATH=$JAVA_HOME/bin:$PATH
 #save and close the file and apply the change
 source ~/.bashrc
-
-######
-## command to install tika from the maven repository
-mvn dependency:get -Dartifact=org.apache.tika:tika-app:2.6.0
-#locate the jar file
-~/.m2/repository/org/apache/tika/tika-app/2.6.0/tika-app-2.6.0.jar
-#update permission if there is any
-chmod +x ~/.m2/repository/org/apache/tika/tika-app/2.6.0/tika-app-2.6.0.jar
-#run the tika app
-java -jar ~/.m2/repository/org/apache/tika/tika-app/2.6.0/tika-app-2.6.0.jar
-#####
-
-#step for tika-GeoParser
-#change directory into tika (Linux based OS)
-cd ~/tika
-#Build the tika project by generating the target/ directory and tika-app-version-SNAPSHOT.jar
-mvn clean install
-# Verify the bluid
-ls -lh tika-app/target/
-#Run this to check the version of the tika-app-SNAPSHOT
-java -jar tika-app/target/tika-app-<version>-SNAPSHOT.jar --version
 
 ####
 
