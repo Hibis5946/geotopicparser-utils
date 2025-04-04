@@ -6,7 +6,7 @@ tika-server-standard
 #By Sena Londoon
 MS/APDS @ USC
 
-# Recommanded JDK at the time of this edit: JDK 17
+# Recommanded JDK at the time of this edit: JDK 17 for windows or 11 for MAC users
 # You have to make sure that your system is configured to use JDK 17 and the path correctly exported before this installation
 
 ##lucene-geo-gazetteer
